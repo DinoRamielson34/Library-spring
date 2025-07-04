@@ -1,0 +1,90 @@
+Voici la premiere partie
+Titre : Prêter un livre (exemplaire)
+Utilisateur :  bibliothèque
+input : num adhérent, num exemplaire 
+scénario normale : exemplaire prêter par l’adhérent
+règle de gestion :
+- adhérent doit être actif
+- adhérent existe ?
+- exemplaire existe ?
+- exemplaire disponible ?
+- l’adhérent est-il sanctionné ?
+- cota ? (qui peut emprunter quoi ?)
+scénario alternative :
+- mssg d’erreur
+résultat : 
+- adhérent inactif → error
+- adhérent inexistant → error
+- exemplaire inexistant → error
+- adhérent est sanc
+
+
+voici la deuxieme partie:
+titre : Prolonger un prêt
+Utilisateur :  bibliothèque
+input : id-prêt
+scénario normale : le prêt est prolongé
+règle de gestion :
+- prêt existe ?
+- livre pas réservé ?
+scénario alternative :
+- l’exemplaire est déjà réservé par un autre adhérent
+- le prêt n’existe pas
+résultat : 
+- prêt inexistant → error
+- un adhérent à réserver l’exemplaire → error
+Donc pour cette partie nous avons deux pages celle de l'hadherant et celle du bibliothecaire normalement ont est directement rediriger vers la page concerner
+la partie adherant quand on fait une demande on a la liste de nos pret et un bouton prolonger et une input date
+la partie bibliothecaire on valide ou refuse la demande
+
+voici la troisieme partie:
+itre : retourner un livre
+Utilisateur :  bibliothèque
+input : id prêt, num adhérent  
+scénario normale : l’adhérent retourne son livre
+règle de gestion :
+- l’adhérent existe ?
+- le prêt existe ?
+- vérifier si la date de retour est correcte (pas de retard)
+scénario alternative :
+- l’adhérent n’existe pas
+- le prêt n’existe pas
+- le livre est rendu en retard
+    - le jour de retard est un jour férié
+résultat : 
+- adhérent inexistant → error
+- prêt inexistant → error
+- livre est rendu en retard → adhérent sanctionné
+    - annulation de la sanction
+
+voici la quatrieme partie:
+Titre : Sanctionner un adhérent
+Utilisateur :  bibliothèque
+input : num adhérent, date_debut, date_fin, date_sanction
+scénario normale : l’adhérent est sanctionné par la bibliothèque
+règle de gestion :
+- l’adhérent existe ?
+- l’id sanction existe ?
+- la date de début < date de fin ?
+scénario alternative :
+- l’adhérent n’existe pas
+- l’exemplaire n’existe pas
+- date de début > date de fin
+résultat : 
+- adhérent inexistant → error
+- exemplaire inexistant → error
+- date de début > date de fin
+
+Normalement tout ca a ete deja fini.
+le probleme c'est que c'est un projets en groupe dans chaque fonctionnalite c'est une personne qui la fait
+donc j'ai juste merger toute les fonctionnalite a toi de les debugger
+Je pense normalement on devrait avoir deux page principaux hors login
+adherant et bibliothecaire
+dans chachune des page tu va mettre des liens pour chaque fonctionnalite correspondant au profil il y deux profil normalemnt ou 3 les voici:
+    ('etudiant', 1),
+    ('professeur', 1),
+    ('autre', 1);
+donc quand on se connecte normalement ca nous redirege automatiquement vers la page qui le correspond.
+si je ne me trompe pas adherant et professeur c'est a peux pres la meme chose mais c'est les regle qui s'applique a eux qui differe
+normalement toute les fonctions sont deja la tu n'as qu'a debugger et a arranger tout juste.
+n'invente rien car tout est deja la .

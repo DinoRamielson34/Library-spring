@@ -1,0 +1,38 @@
+titre : Prolonger un prêt
+
+Utilisateur :  bibliothèque
+
+input : id-prêt
+
+scénario normale : le prêt est prolongé
+
+règle de gestion :
+
+- prêt existe ?
+- livre pas réservé ?
+
+scénario alternative :
+
+- l’exemplaire est déjà réservé par un autre adhérent
+- le prêt n’existe pas
+
+résultat : 
+
+- prêt inexistant → error
+- un adhérent à réserver l’exemplaire → error
+
+J'ai deja commencer mais ca marche pas encore.
+Pour notre projets nous travaillons a chauque dans le dossier pret c'est a dire controller/pret/prolongementController par exemple
+tout fonctionne passons maintenant a la partie du bibliothecaire;
+donc dans la partie du bibliothecaireon se log aussi d'abord.
+ensuite on aurra la liste de demande de Prolongement et de bouton pour accepter ou refuser. pour la liste des demande de prolongement tu affiche que ceux avec un status_traintement = 0
+une fois qu'on appuie sur ce bouton la status_traintement devient 1 ca signifie que la requete a ete traiter ensuite si le bibliothecaire a accepter status devient 1 et s'il n'as pas accepter status reste 0
+Une fois fait on mets a jours la table :CREATE TABLE Prolongement (
+    id_prolongement SERIAL,
+    nouveau_date_fin_pret TIMESTAMP NOT NULL,
+    date_prolongement TIMESTAMP NOT NULL,
+    id_pret INT NOT NULL,
+    PRIMARY KEY (id_prolongement),
+    FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
+);
+en faisant insert pas update 

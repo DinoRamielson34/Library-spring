@@ -1,0 +1,81 @@
+====== RETOURNER UN LIVRE =====
+# LES TABLES UTILES
+
+CREATE TABLE
+    Pret (
+        id_pret SERIAL,
+        date_debut TIMESTAMP NOT NULL,
+        date_fin TIMESTAMP NOT NULL,
+        id_exemplaire INT NOT NULL,
+        id_adherent INT NOT NULL,
+        id_type INT NOT NULL,
+        PRIMARY KEY (id_pret),
+        FOREIGN KEY (id_exemplaire) REFERENCES Exemplaire (id_exemplaire),
+        FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent),
+        FOREIGN KEY (id_type) REFERENCES Type (id_type)
+    );
+
+
+CREATE TABLE
+    Adherent (
+        id_adherent SERIAL,
+        nom VARCHAR(50) NOT NULL,
+        prenom VARCHAR(50) NOT NULL,
+        date_de_naissance DATE NOT NULL,
+        id_utilisateur INT,
+        id_profil INT NOT NULL,
+        PRIMARY KEY (id_adherent),
+        UNIQUE (id_utilisateur),
+        FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
+        FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
+    );
+
+CREATE TABLE
+    Utilisateur (
+        id_utilisateur SERIAL,
+        username VARCHAR(50) NOT NULL,
+        mdp VARCHAR(50) NOT NULL,
+        id_role INT NOT NULL,
+        PRIMARY KEY (id_utilisateur),
+        UNIQUE (username),
+        FOREIGN KEY (id_role) REFERENCES Role (id_role)
+    );
+
+
+CREATE TABLE
+    Jour_Ferie (
+        id_jour_ferie SERIAL,
+        description VARCHAR(50),
+        date_jf DATE NOT NULL,
+        PRIMARY KEY (id_jour_ferie)
+    );
+
+CREATE TABLE
+    Regle_Jour_Ferie (
+        id_regle_jour_ferie SERIAL,
+        comportement_ INT NOT NULL,
+        date_modif TIMESTAMP NOT NULL,
+        PRIMARY KEY (id_regle_jour_ferie)
+    );
+
+
+== Regle de gestion ==
+Front : 
+INPUT : id_pret , num_Adh
+ -Adh existe?(done)
+    if(getUserById(num_Adh)){
+        OK
+    }
+    
+ -Pret existe? (done)
+    if(getPretByid(id_pret) AND getUserPret(id_pret,id_adh)){
+
+    }
+    Pour getUserPret(id_pret,id_adh): verifier dans table Pret si pret.idAdh == id_adh (done)
+    
+
+ -Verifier date de retour si correcte?
+
+ getDateFinById(id_pret)
+ 
+    

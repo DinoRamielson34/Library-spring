@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Affichage Prêt</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 12px 0;
+            color: #444;
+        }
+
+        a {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 0;
+            border-radius: 7px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Informations du prêt reçu</h1>
+
+        <p th:text="'Date de début : ' + ${dateDebut}"></p>
+        <p th:text="'Date de fin prévue : ' + ${dateFin}"></p>
+
+        <p th:text="'ID de l’adhérent : ' + ${idAdherent}"></p>
+        <p th:text="'ID du livre : ' + ${idLivre}"></p>
+        <p th:text="'Âge de l’adhérent : ' + ${ageAdherent} + ' ans'"></p>
+        <p th:text="'Âge restriction : ' + (${ageRestriction} != null ? ${ageRestriction} + ' ans' : 'Non défini')"></p>
+
+        <p th:text="${message}"></p>
+
+        <p>
+            Statut adhérent :
+            <span th:text="${statut == 'actif' ? 'Actif ✅' : 'Inactif ❌'}"></span>
+        </p>
+
+        <p>
+            Sanction :
+            <span th:text="${isSanctioned ? 'Sanctionné 🚫' : 'Non sanctionné ✅'}"></span>
+        </p>
+
+        <a th:href="@{/preter/formpreter/livre}">Retour au formulaire</a>
+    </div>
+</body>
+
+</html>

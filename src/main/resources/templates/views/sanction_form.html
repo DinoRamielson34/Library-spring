@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Sanctionner un adhérent</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            text-transform: capitalize;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        input[type="number"],
+        input[type="date"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-transform: capitalize;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            text-align: center;
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        p[style*="color:green"] {
+            color: #27ae60;
+        }
+
+        p[style*="color:red"] {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <form th:action="@{/sanction/sanctionner}" method="post">
+        <h1>Sanctionner un adhérent</h1>
+
+        <label for="num_adherent">Numéro Adhérent :</label>
+        <input type="number" id="num_adherent" name="num_adherent" required>
+
+        <label for="date_debut">Date début sanction :</label>
+        <input type="date" id="date_debut" name="date_debut" required>
+
+        <label for="date_fin">Date fin sanction :</label>
+        <input type="date" id="date_fin" name="date_fin" required>
+
+        <label for="motif">Motif :</label>
+        <input type="text" id="motif" name="motif" required>
+
+        <button type="submit">Sanctionner</button>
+
+        <p style="color:green;" th:text="${message}"></p>
+        <p style="color:red;" th:text="${error}"></p>
+    </form>
+</body>
+
+</html>

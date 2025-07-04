@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Ajouter une réservation</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        select,
+        input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus,
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <form th:action="@{/reservation/add}" th:object="${reservation}" method="post">
+        <h1>Ajouter une réservation</h1>
+        <div>
+            <label for="exemplaire">Exemplaire:</label>
+            <select id="exemplaire" th:field="*{exemplaire.id_exemplaire}" required>
+                <option value="" disabled selected>Sélectionner un exemplaire</option>
+                <option th:each="exemplaire : ${exemplaires}" th:value="${exemplaire.id_exemplaire}"
+                    th:text="${exemplaire.code}"></option>
+            </select>
+        </div>
+        <div>
+            <label for="adherent">Adhérent:</label>
+            <select id="adherent" th:field="*{adherent.idAdherent}" required>
+                <option value="" disabled selected>Sélectionner un adhérent</option>
+                <option th:each="adherent : ${adherents}" th:value="${adherent.idAdherent}"
+                    th:text="${adherent.nom + ' ' + adherent.prenom}"></option>
+            </select>
+        </div>
+        <div>
+            <label for="date_reservation">Date de réservation:</label>
+            <input type="date" id="date_reservation" th:field="*{date_reservation}" required />
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+</body>
+
+</html>

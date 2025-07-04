@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Demandes de Prolongation en Attente</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        button {
+            background-color: #2ecc71;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            margin: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        form {
+            display: inline;
+        }
+
+        p {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .success {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Demandes de Prolongation en Attente</h1>
+
+    <div th:if="${success}">
+        <p th:text="${success}" class="success"></p>
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}" class="error"></p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(pendingRequests)}">
+        <thead>
+            <tr>
+                <th>ID Demande</th>
+                <th>ID Prêt</th>
+                <th>Adhérent</th>
+                <th>Livre</th>
+                <th>Date de fin actuelle</th>
+                <th>Date de fin demandée</th>
+                <th>Date de la demande</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="request : ${pendingRequests}">
+                <td th:text="${request.idStatus}"></td>
+                <td th:text="${request.pret.id_pret}"></td>
+                <td th:text="${request.pret.adherent.nom} + ' ' + ${request.pret.adherent.prenom}"></td>
+                <td th:text="${request.pret.exemplaire.livre.titre}"></td>
+                <td th:text="${request.pret.date_fin}"></td>
+                <td th:text="${request.dateFinDemandee}"></td>
+                <td th:text="${request.dateProlongement}"></td>
+                <td>
+                    <form th:action="@{/librarian/prolongement/accept/{id}(id=${request.idStatus})}" method="post">
+                        <button type="submit">Accepter</button>
+                    </form>
+                    <form th:action="@{/librarian/prolongement/refuse/{id}(id=${request.idStatus})}" method="post">
+                        <button type="submit" style="background-color: #e74c3c;">Refuser</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(pendingRequests)}">
+        <p>Aucune demande de prolongation en attente.</p>
+    </div>
+</body>
+
+</html>
