@@ -21,6 +21,7 @@ import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.TypeRepository;
 import com.biblio.bibliotheque.repository.reservation.ReservationRepository;
 import com.biblio.bibliotheque.service.pret.PretService;
+import com.biblio.bibliotheque.service.pret.ProlongementService;
 import com.biblio.bibliotheque.service.sanction.SanctionService;
 
 @Controller
@@ -43,6 +44,11 @@ public class ReservationController {
     private PretService pretService;
 
     @Autowired
+
+    private ProlongementService prolongementService;
+
+    @Autowired
+
     private TypeRepository typeRepository;
 
     @GetMapping
@@ -66,6 +72,9 @@ public class ReservationController {
         LocalDateTime dateReservation = reservation.getDate_reservation().atStartOfDay();
         LocalDate dateReserv = reservation.getDate_reservation();
 
+
+        // Vérifier si l'adhérent est sanctionné
+
         boolean isSanctioned = sanctionService.isAdherentSanctioned(idAdherent, dateReservation);
 
         if (isSanctioned) {
@@ -73,6 +82,18 @@ public class ReservationController {
             model.addAttribute("exemplaires", exemplaireRepository.findAll());
             model.addAttribute("adherents", adherentRepository.findAll());
             model.addAttribute("message", "❌ L'adhérent est actuellement sanctionné. Réservation refusée.");
+            return "views/reservation/add";
+        }
+
+        // Vérifier si l'adhérent a des prêts prolongés actifs
+        boolean hasActiveProlongements = prolongementService.hasActiveProlongements(idAdherent);
+
+        if (hasActiveProlongements) {
+            int prolongementsCount = prolongementService.getActiveProlongementsCount(idAdherent);
+            model.addAttribute("reservation", reservation);
+            model.addAttribute("exemplaires", exemplaireRepository.findAll());
+            model.addAttribute("adherents", adherentRepository.findAll());
+            model.addAttribute("message", "❌ L'adhérent a " + prolongementsCount + " prêt(s) prolongé(s) encore actif(s). Réservation refusée.");
             return "views/reservation/add";
         }
 
@@ -118,6 +139,16 @@ public class ReservationController {
             Integer idAdherent = reservation.getAdherent().getIdAdherent();
             LocalDateTime dateValidation = LocalDateTime.now();
             
+            // Vérifier si l'adhérent a des prêts prolongés actifs
+            boolean hasActiveProlongements = prolongementService.hasActiveProlongements(idAdherent);
+            
+            if (hasActiveProlongements) {
+                int prolongementsCount = prolongementService.getActiveProlongementsCount(idAdherent);
+                model.addAttribute("errorMessage", "❌ L'adhérent a " + prolongementsCount + " prêt(s) prolongé(s) encore actif(s). Validation refusée.");
+                return "redirect:/reservation?error=prolongements";
+            }
+
+
             boolean isSanctioned = sanctionService.isAdherentSanctioned(idAdherent, dateValidation);
             
             if (isSanctioned) {

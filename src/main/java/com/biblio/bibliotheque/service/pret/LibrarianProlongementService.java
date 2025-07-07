@@ -1,16 +1,17 @@
 package com.biblio.bibliotheque.service.pret;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.model.pret.Prolongement;
 import com.biblio.bibliotheque.model.pret.StatusProlongement;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.pret.ProlongementRepository;
 import com.biblio.bibliotheque.repository.pret.StatusProlongementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class LibrarianProlongementService {
@@ -41,6 +42,7 @@ public class LibrarianProlongementService {
         prolongement.setPret(statusProlongement.getPret());
         prolongement.setDateProlongement(LocalDateTime.now());
         prolongement.setNouveauDateFinPret(statusProlongement.getDateFinDemandee());
+        prolongement.setStatut(1);
         Prolongement savedProlongement = prolongementRepository.save(prolongement);
 
         // Mettre à jour le statut de la demande
