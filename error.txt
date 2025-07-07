@@ -1,3 +1,0 @@
-voici les erreurs dans la partie bibliothecaire:
-maintenant dans sanctionner un adherant quand j'appie sur sanctionner voici l'erreur:Erreur : could not execute statement [ERREUR: une valeur NULL viole la contrainte NOT NULL de la colonne « date_sanction » dans la relation « sanction » Détail : La ligne en échec contient (1, 2025-07-19 00:00:00, 2025-07-26 23:59:59, null, null, 1).] [insert into sanction (id_adherent,date_debut,date_fin) values (?,?,?)]; SQL [insert into sanction (id_adherent,date_debut,date_fin) values (?,?,?)]; constraint [null]
-

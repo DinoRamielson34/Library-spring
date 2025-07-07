@@ -100,7 +100,9 @@
             <input type="date" id="date_reservation" th:field="*{date_reservation}" required />
         </div>
         <button type="submit">Ajouter</button>
+        <p th:if="${message}" th:text="${message}" style="color:red; font-weight: bold;"></p>
     </form>
+    
 </body>
 
 </html>

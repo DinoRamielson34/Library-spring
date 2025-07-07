@@ -1,11 +1,5 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.Adherent;
-import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
-import com.biblio.bibliotheque.repository.gestion.StatutAdherentRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -16,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
+import com.biblio.bibliotheque.repository.gestion.StatutAdherentRepository;
 
 @Service
 public class AdherentService {
@@ -58,5 +53,15 @@ public class AdherentService {
 
     public boolean isExistAdherent(Integer idAdherent) {
         return adherentRepository.existsById(idAdherent);
+    }
+
+    public Integer getAge(Integer idAdherent) {
+        Optional<LocalDate> optionalDateNaissance = adherentRepository.findDateDeNaissanceById(idAdherent);
+        if (optionalDateNaissance.isPresent()) {
+            LocalDate dateNaissance = optionalDateNaissance.get();
+            return Period.between(dateNaissance, LocalDate.now()).getYears();
+        } else {
+            return null; // ou lever une exception personnalisée
+        }
     }
 }

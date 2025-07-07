@@ -250,3 +250,12 @@ CREATE TABLE
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
 
+
+
+CREATE TABLE
+    Regle_Exemplaire(
+        id_regle_exemplaire SERIAL PRIMARY KEY,
+        maxAge INT,
+        id_exemplaire INT,
+        FOREIGN KEY (id_exemplaire) REFERENCES Exemplaire (id_exemplaire)
+    );

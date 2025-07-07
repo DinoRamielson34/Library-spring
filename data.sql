@@ -2,22 +2,22 @@
 -- Sans apostrophes ni accents
 
 -- Insertion des donnees dans la table Livre
-INSERT INTO Livre (titre, auteur) VALUES
-('Le Petit Prince', 'Antoine de Saint-Exupery'),
-('1984', 'George Orwell'),
-('Pride and Prejudice', 'Jane Austen'),
-('To Kill a Mockingbird', 'Harper Lee'),
-('The Great Gatsby', 'F. Scott Fitzgerald'),
-('One Hundred Years of Solitude', 'Gabriel Garcia Marquez'),
-('Brave New World', 'Aldous Huxley'),
-('The Catcher in the Rye', 'J.D. Salinger'),
-('Lord of the Flies', 'William Golding'),
-('Animal Farm', 'George Orwell'),
-('The Hobbit', 'J.R.R. Tolkien'),
-('Harry Potter and the Philosophers Stone', 'J.K. Rowling'),
-('The Da Vinci Code', 'Dan Brown'),
-('The Alchemist', 'Paulo Coelho'),
-('Gone with the Wind', 'Margaret Mitchell');
+INSERT INTO Livre (titre, auteur,id_restriction) VALUES
+('Le Petit Prince', 'Antoine de Saint-Exupery',1),
+('1984', 'George Orwell',1),
+('Pride and Prejudice', 'Jane Austen',1),
+('To Kill a Mockingbird', 'Harper Lee',1),
+('The Great Gatsby', 'F. Scott Fitzgerald',1),
+('One Hundred Years of Solitude', 'Gabriel Garcia Marquez',1),
+('Brave New World', 'Aldous Huxley',1),
+('The Catcher in the Rye', 'J.D. Salinger',1),
+('Lord of the Flies', 'William Golding',1),
+('Animal Farm', 'George Orwell',1),
+('The Hobbit', 'J.R.R. Tolkien',1),
+('Harry Potter and the Philosophers Stone', 'J.K. Rowling',1),
+('The Da Vinci Code', 'Dan Brown',1),
+('The Alchemist', 'Paulo Coelho',1),
+('Gone with the Wind', 'Margaret Mitchell',1);
 
 -- Insertion des donnees dans la table Exemplaire
 INSERT INTO Exemplaire (code, id_livre) VALUES
@@ -215,6 +215,9 @@ INSERT INTO Adherent (nom, prenom, date_de_naissance, id_utilisateur, id_profil)
 ('Rousseau', 'Emma', '1986-12-19', NULL, 2),
 ('Robert', 'Alexandre', '1990-04-12', NULL, 3);
 
+
+INSERT INTO Adherent (nom, prenom, date_de_naissance, id_utilisateur, id_profil) VALUES ('Bran', 'Stark', '2012-04-12', NULL, 3);
+
 -- Insertion des donnees dans la table Reservation
 INSERT INTO Reservation (date_reservation, date_debut_reservation, date_fin_reservation, id_exemplaire, id_adherent) VALUES
 ('2024-01-10 09:00:00', '2024-01-15 00:00:00', '2024-01-22 23:59:59', 1, 1),
@@ -333,3 +336,9 @@ INSERT INTO Abonnement_Adherent (id_adherent, id_abonnement, date_de_payement) V
 (13, 1, '2024-01-28 16:20:00'),
 (14, 3, '2024-01-16 11:45:00'),
 (15, 2, '2024-01-26 13:15:00');
+
+
+INSERT INTO Statut_Adherent (id_adherent, nom, date_debut, date_fin)
+VALUES (1, 'actif', CURRENT_DATE, '2025-07-10' );
+
+

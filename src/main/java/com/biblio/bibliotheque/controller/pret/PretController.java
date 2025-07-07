@@ -1,42 +1,37 @@
 package com.biblio.bibliotheque.controller.pret;
 
-import com.biblio.bibliotheque.model.gestion.*;
-import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.model.livre.Exemplaire;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.gestion.Regle;
 import com.biblio.bibliotheque.model.gestion.Utilisateur;
 import com.biblio.bibliotheque.model.livre.Type;
-import com.biblio.bibliotheque.repository.pret.*;
-
-import jakarta.servlet.http.HttpSession;
-
-import com.biblio.bibliotheque.repository.gestion.*;
-import com.biblio.bibliotheque.repository.livre.*;
-import com.biblio.bibliotheque.service.gestion.AdherentService;
-import com.biblio.bibliotheque.service.livre.*;
-import com.biblio.bibliotheque.service.pret.PretService;
-import com.biblio.bibliotheque.service.gestion.*;
-import com.biblio.bibliotheque.repository.pret.PretRepository;
+import com.biblio.bibliotheque.model.pret.Pret;
+import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.TypeRepository;
+import com.biblio.bibliotheque.repository.pret.PretRepository;
+import com.biblio.bibliotheque.service.gestion.AdherentService;
+import com.biblio.bibliotheque.service.gestion.ProfilService;
+import com.biblio.bibliotheque.service.gestion.RegleService;
+import com.biblio.bibliotheque.service.livre.ExemplaireService;
+import com.biblio.bibliotheque.service.livre.LivreService;
+import com.biblio.bibliotheque.service.pret.PretService;
 import com.biblio.bibliotheque.service.sanction.SanctionService;
-import java.util.Optional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/preter")
@@ -89,10 +84,24 @@ public class PretController {
         Integer idAdherent = pret.getAdherent().getIdAdherent();
         LocalDate dateDebut = pret.getDate_debut();
         Integer idExemplaire = pret.getExemplaire().getId_exemplaire();
+        
+        Integer idType = 2;
+
+        // 🔧 Crée un objet Type avec juste l'id
+        Type type = new Type();
+        type.setId_type(idType);
+
+        // 🧩 Affecte ce type à l’objet Pret
+        pret.setType(type);
+        
 
         Integer idLivre = livreService.getIdLivreByIdExemplaire(idExemplaire);
         Integer ageRestriction = (idLivre != null) ? livreService.getAgeRestrictionByIdLivre(idLivre) : null;
         Integer ageAdherent = adherentService.getAgeAtDate(idAdherent, dateDebut);
+
+        System.out.println("L'age de restriction: "+ageRestriction);
+        System.out.println(ageAdherent);
+
 
         Optional<Adherent> optionalAdherent = adherentService.getById(idAdherent);
         if (optionalAdherent.isEmpty()) {

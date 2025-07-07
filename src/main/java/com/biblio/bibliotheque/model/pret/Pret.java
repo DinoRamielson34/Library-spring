@@ -1,13 +1,18 @@
 package com.biblio.bibliotheque.model.pret;
 
-import com.biblio.bibliotheque.model.livre.*;
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.livre.Type;
-import com.biblio.bibliotheque.model.gestion.Adherent;
-import jakarta.persistence.*;
-import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Pret {
