@@ -82,7 +82,7 @@
 </head>
 
 <body>
-    <h1>Demandes de Prolongation en Attente</h1>
+    <h1>Prolongement</h1>
 
     <div th:if="${success}">
         <p th:text="${success}" class="success"></p>
@@ -94,7 +94,7 @@
     <table th:if="${!#lists.isEmpty(pendingRequests)}">
         <thead>
             <tr>
-                <th>ID Demande</th>
+                <th>ID Prolongement</th>
                 <th>ID Prêt</th>
                 <th>Adhérent</th>
                 <th>Livre</th>
@@ -126,7 +126,7 @@
     </table>
 
     <div th:if="${#lists.isEmpty(pendingRequests)}">
-        <p>Aucune demande de prolongation en attente.</p>
+        <p>Aucune demande de prolongement en attente.</p>
     </div>
 </body>
 
