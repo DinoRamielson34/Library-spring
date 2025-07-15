@@ -100,13 +100,19 @@
                 <input type="number" name="idPret" id="idPret" required>
             </div>
             <div>
+                <label for="dateRendu">Date Rendu</label>
+                <input type="date" name="dateRendu" id="dateRendu" required>
+            </div>
+
+            <div>
                 <button type="submit">Valider</button>
             </div>
         </form>
+        <div th:if="${message}">
+            <p th:text="${message}" th:class="${messageType == 'success'} ? 'text-success' : 'text-error'"></p>
+        </div>
     </div>
-    <div th:if="${message}">
-        <p th:text="${message}" th:class="${messageType == 'success'} ? 'text-success' : 'text-error'"></p>
-    </div>
+    
 </body>
 
 </html>

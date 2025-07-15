@@ -1,20 +1,15 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.model.pret.Rendu;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.pret.RenduRepository;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
@@ -48,8 +43,6 @@ public class RenduController {
     @Autowired
     private RenduService renduService;
 
-    
-
     @GetMapping("/retour")
     public String PageRetour(Model model) {
         model.addAttribute("retour", "Bienvenue dans la page retour de livre");
@@ -58,17 +51,14 @@ public class RenduController {
 
     @GetMapping("/valider")
     public String traiterFormulaire(
-            @RequestParam("idAdherent") Integer idAdherent,
+            @RequestParam("idAdherent") Integer idAdherent, 
             @RequestParam("idPret") Integer idPret,
+            @RequestParam("dateRendu") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateRendu,
             Model model) {
         try {
-            String message = renduService.validerRendu(idAdherent, idPret);
+            String message = renduService.validerRendu(idAdherent, idPret, dateRendu);
             model.addAttribute("message", message);
-            if (message.startsWith("Erreur")) {
-                model.addAttribute("messageType", "error");
-            } else {
-                model.addAttribute("messageType", "success");
-            }
+            model.addAttribute("messageType", message.startsWith("Erreur") ? "error" : "success");
         } catch (Exception e) {
             model.addAttribute("message", "Erreur inattendue lors de la vérification.");
             model.addAttribute("messageType", "error");

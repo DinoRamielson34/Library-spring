@@ -1,14 +1,15 @@
 package com.biblio.bibliotheque.service.livre;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.biblio.bibliotheque.model.livre.EtatExemplaire;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.repository.livre.EtatExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExemplaireService {
@@ -33,6 +34,23 @@ public class ExemplaireService {
 
     return nomEtat.equals("disponible");
     }
+
+    public String getDisponibiliteExemplaire(Integer idExemplaire) {
+    EtatExemplaire latestEtat = etatExemplaireRepository.findLatestEtatForExemplaire(idExemplaire);
+
+    if (latestEtat == null || latestEtat.getEtat() == null || latestEtat.getEtat().getNom() == null) {
+        return "Non disponible";
+    }
+
+    String nomEtat = latestEtat.getEtat().getNom();
+    
+    if ("Disponible".equalsIgnoreCase(nomEtat)) {
+        return "Disponible";
+    } else {
+        return "Non disponible";
+    }
+}
+
 
     // Récupérer tous les exemplaires
     public List<Exemplaire> getAllExemplaires() {

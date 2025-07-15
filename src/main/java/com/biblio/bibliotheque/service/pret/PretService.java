@@ -6,9 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 
@@ -24,7 +21,7 @@ public class PretService {
 
     public Pret getPretById(Integer id) {
         return pretRepository.findById(id).orElse(null);
-    }    
+    }
 
     public Pret savePret(Pret pret) {
         return pretRepository.save(pret);
@@ -33,6 +30,7 @@ public class PretService {
     public void deletePret(Integer id) {
         pretRepository.deleteById(id);
     }
+
     public int countPretsActifsParAdherentALaDate(Integer idAdherent, LocalDate date) {
         return pretRepository.countPretsActifsParAdherentALaDate(idAdherent, date);
     }
@@ -44,8 +42,7 @@ public class PretService {
         return dateDebut.plusDays(nbJours);
     }
 
-
-    public boolean existById(Integer idPret){
+    public boolean existById(Integer idPret) {
         return pretRepository.existsById(idPret);
     }
 
@@ -54,7 +51,11 @@ public class PretService {
     }
 
     public LocalDate getDateFinPret(Integer idPret) {
-    return pretRepository.getDateFinById(idPret);
+        return pretRepository.getDateFinById(idPret);
+    }
+
+    public Integer getIdExemplaireByPret(Integer idPret) {
+        return pretRepository.getIdExemplaireByPret(idPret);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.gestion.Regle;
 import com.biblio.bibliotheque.model.gestion.Utilisateur;
+import com.biblio.bibliotheque.model.livre.Etat;
+import com.biblio.bibliotheque.model.livre.EtatExemplaire;
 import com.biblio.bibliotheque.model.livre.Type;
 import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
@@ -26,6 +29,7 @@ import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
 import com.biblio.bibliotheque.service.gestion.ProfilService;
 import com.biblio.bibliotheque.service.gestion.RegleService;
+import com.biblio.bibliotheque.service.livre.EtatExemplaireService;
 import com.biblio.bibliotheque.service.livre.ExemplaireService;
 import com.biblio.bibliotheque.service.livre.LivreService;
 import com.biblio.bibliotheque.service.pret.PretService;
@@ -70,6 +74,9 @@ public class PretController {
     @Autowired
     private AdherentRepository adherentRepository;
 
+    @Autowired
+    private EtatExemplaireService etatExemplaireService;
+
     @GetMapping("/formpreter/livre")
     public String showFormPreterLivre(Model model) {
         model.addAttribute("pret", new Pret());
@@ -84,7 +91,7 @@ public class PretController {
         Integer idAdherent = pret.getAdherent().getIdAdherent();
         LocalDate dateDebut = pret.getDate_debut();
         Integer idExemplaire = pret.getExemplaire().getId_exemplaire();
-        
+
         Integer idType = 2;
 
         // 🔧 Crée un objet Type avec juste l'id
@@ -93,15 +100,13 @@ public class PretController {
 
         // 🧩 Affecte ce type à l’objet Pret
         pret.setType(type);
-        
 
         Integer idLivre = livreService.getIdLivreByIdExemplaire(idExemplaire);
         Integer ageRestriction = (idLivre != null) ? livreService.getAgeRestrictionByIdLivre(idLivre) : null;
         Integer ageAdherent = adherentService.getAgeAtDate(idAdherent, dateDebut);
 
-        System.out.println("L'age de restriction: "+ageRestriction);
+        System.out.println("L'age de restriction: " + ageRestriction);
         System.out.println(ageAdherent);
-
 
         Optional<Adherent> optionalAdherent = adherentService.getById(idAdherent);
         if (optionalAdherent.isEmpty()) {
@@ -143,12 +148,28 @@ public class PretController {
 
         // ✅ Enregistre le prêt uniquement si tout est valide
         if (!isSanctioned &&
-            nbPretsActifs < nbMaxPrets &&
-            disponible &&
-            (ageRestriction == null || ageAdherent >= ageRestriction) &&
-            "actif".equalsIgnoreCase(statut)) {
+                nbPretsActifs < nbMaxPrets &&
+                disponible &&
+                (ageRestriction == null || ageAdherent >= ageRestriction) &&
+                "actif".equalsIgnoreCase(statut)) {
 
             pretService.savePret(pret);
+            EtatExemplaire etatExemplaire = new EtatExemplaire();
+
+            // Lier l'exemplaire emprunté
+            etatExemplaire.setExemplaire(pret.getExemplaire());
+
+            // Créer un objet Etat avec id 2 (Emprunté)
+            Etat etat = new Etat();
+            etat.setId_etat(2);
+            etatExemplaire.setEtat(etat);
+
+            // Date de modification = début du prêt (converti en LocalDateTime)
+            etatExemplaire.setDate_modif(LocalDateTime.now());
+
+            // Enregistrer dans la base
+            etatExemplaireService.saveEtatExemplaire(etatExemplaire);
+
             model.addAttribute("message", "✅ Le prêt a été enregistré avec succès !");
         } else if (isSanctioned) {
             model.addAttribute("message", "❌ L'adhérent est sanctionné à cette date.");
@@ -157,15 +178,14 @@ public class PretController {
         } else if (!disponible) {
             model.addAttribute("message", "❌ L'exemplaire n'est pas disponible.");
         } else if (ageRestriction != null && ageAdherent < ageRestriction) {
-            model.addAttribute("message", "❌ L'adhérent n'a pas l'âge requis (" + ageRestriction + " ans) pour emprunter ce livre.");
+            model.addAttribute("message",
+                    "❌ L'adhérent n'a pas l'âge requis (" + ageRestriction + " ans) pour emprunter ce livre.");
         } else if (!"actif".equalsIgnoreCase(statut)) {
             model.addAttribute("message", "❌ L'adhérent est inactif à cette date.");
         }
 
         return "views/preter/verification_pret";
     }
-
-
 
     // DELETE ACTION
     @GetMapping("/delete/{id}")
@@ -181,16 +201,16 @@ public class PretController {
 
         // Si pas d'utilisateur en session, rediriger vers login (optionnel)
         if (utilisateur == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         // Trouver l'adhérent lié à cet utilisateur
         Adherent adherent = adherentRepository.findByUtilisateur(utilisateur)
-                .orElse(null); 
+                .orElse(null);
 
         if (adherent == null) {
             model.addAttribute("error", "Aucun adhérent trouvé");
-            return "pret/list"; 
+            return "pret/list";
         }
 
         // Récupérer les prêts de cet adhérent

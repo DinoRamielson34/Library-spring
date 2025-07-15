@@ -1,12 +1,13 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.Abonnement;
-import com.biblio.bibliotheque.repository.gestion.AbonnementRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.biblio.bibliotheque.model.gestion.Abonnement;
+import com.biblio.bibliotheque.repository.gestion.AbonnementRepository;
 
 @Service
 public class AbonnementService {
@@ -30,10 +31,4 @@ public class AbonnementService {
         abonnementRepository.deleteById(id);
     }
 
-    // Exemple méthode personnalisée
-    /*
-    public Abonnement findByMoisAndAnnee(Integer mois, Integer annee) {
-        return abonnementRepository.findByMoisAndAnnee(mois, annee);
-    }
-    */
 }

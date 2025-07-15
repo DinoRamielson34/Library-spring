@@ -67,6 +67,8 @@
         <p th:text="'ID du livre : ' + ${idLivre}"></p>
         <p th:text="'Âge de l’adhérent : ' + ${ageAdherent} + ' ans'"></p>
         <p th:text="'Âge restriction : ' + (${ageRestriction} != null ? ${ageRestriction} + ' ans' : 'Non défini')"></p>
+        <p th:text="'Disponibilité : ' + (${disponible} != null ? ${disponible} : 'Inconnu')"></p>
+
 
         <p th:text="${message}"></p>
 
