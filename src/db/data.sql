@@ -162,5 +162,3 @@ VALUES
     (NOW (), NOW () + INTERVAL '10 days', 8, 1, 2);
 
 
-INSERT INTO Regle_Exemplaire (maxAge, id_exemplaire)
-VALUES (18, 1);

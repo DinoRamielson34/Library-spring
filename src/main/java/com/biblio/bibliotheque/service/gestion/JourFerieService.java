@@ -36,7 +36,7 @@ public class JourFerieService {
 
     public boolean isWeekend(LocalDate date) {
         DayOfWeek day = date.getDayOfWeek();
-        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;
+        return day == DayOfWeek.SUNDAY;
     }
 
     public List<JourFerie> getAllJourFerie() {

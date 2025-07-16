@@ -95,6 +95,8 @@ INSERT INTO Abonnement (mois, annee, tarif) VALUES
 (1, 2025, 18.00),
 (6, 2025, 85.00);
 
+INSERT INTO Abonnement (mois, annee, tarif) VALUES (7, 2025, 85.00);
+
 -- Insertion des donnees dans la table Jour_Ferie
 INSERT INTO Jour_Ferie (description, date_jf) VALUES
 ('Nouvel An', '2024-01-01'),
@@ -333,3 +335,5 @@ INSERT INTO Abonnement_Adherent (id_adherent, id_abonnement, date_de_payement) V
 (13, 1, '2024-01-28 16:20:00'),
 (14, 3, '2024-01-16 11:45:00'),
 (15, 2, '2024-01-26 13:15:00');
+
+INSERT INTO Abonnement_Adherent (id_adherent, id_abonnement, date_de_payement) VALUES (1, 11, '2025-07-26 13:15:00');

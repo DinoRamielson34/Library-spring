@@ -338,7 +338,5 @@ INSERT INTO Abonnement_Adherent (id_adherent, id_abonnement, date_de_payement) V
 (15, 2, '2024-01-26 13:15:00');
 
 
-INSERT INTO Statut_Adherent (id_adherent, nom, date_debut, date_fin)
-VALUES (1, 'actif', CURRENT_DATE, '2025-07-10' );
 
 

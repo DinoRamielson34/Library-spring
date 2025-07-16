@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.repository.gestion.AbonnementAdherentRepository;
 import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
-import com.biblio.bibliotheque.repository.gestion.StatutAdherentRepository;
+
 
 @Service
 public class AdherentService {
@@ -19,7 +20,8 @@ public class AdherentService {
     private AdherentRepository adherentRepository;
 
     @Autowired
-    private StatutAdherentRepository statutAdherentRepository;
+    private AbonnementAdherentRepository abonnementAdherentRepository;
+
 
     public List<Adherent> getAll() {
         return adherentRepository.findAll();
@@ -38,9 +40,10 @@ public class AdherentService {
     }
 
     public String getStatutAdherentOnDate(Integer idAdherent, LocalDate date) {
-        boolean actif = statutAdherentRepository.findStatutActifByAdherentIdAndDate(idAdherent, date).isPresent();
-        return actif ? "actif" : "inactif";
+    boolean actif = abonnementAdherentRepository.hasAbonnementActifAtDate(idAdherent, date);
+    return actif ? "actif" : "inactif";
     }
+
 
     public int getAgeAtDate(Integer idAdherent, LocalDate date) {
         Optional<Adherent> optional = adherentRepository.findById(idAdherent);

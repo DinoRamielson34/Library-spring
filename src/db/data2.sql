@@ -151,14 +151,6 @@ CREATE TABLE Adherent (
     FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
 );
 
-CREATE TABLE Statut_Adherent (
-    id_statut_adherent SERIAL PRIMARY KEY,
-    id_adherent INT NOT NULL,
-    nom VARCHAR(20) NOT NULL, 
-    date_debut DATE NOT NULL,
-    date_fin DATE, 
-    FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
-);
 
 CREATE TABLE
     Reservation (

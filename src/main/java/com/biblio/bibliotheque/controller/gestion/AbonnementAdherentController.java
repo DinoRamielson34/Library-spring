@@ -1,16 +1,19 @@
 package com.biblio.bibliotheque.controller.gestion;
 
-import com.biblio.bibliotheque.model.gestion.AbonnementAdherent;
-import com.biblio.bibliotheque.model.gestion.AbonnementAdherentId;
-
-import com.biblio.bibliotheque.repository.gestion.*;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import com.biblio.bibliotheque.model.gestion.AbonnementAdherent;
+import com.biblio.bibliotheque.repository.gestion.AbonnementAdherentRepository;
+import com.biblio.bibliotheque.repository.gestion.AbonnementRepository;
+import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
 
 @Controller
 @RequestMapping("/abonnement-adherent")
@@ -46,11 +49,4 @@ public class AbonnementAdherentController {
         return "redirect:/abonnement-adherent";
     }
 
-    @GetMapping("/delete/{idAdherent}/{idAbonnement}")
-    public String delete(@PathVariable("idAdherent") Integer idAdherent,
-                         @PathVariable("idAbonnement") Integer idAbonnement) {
-        AbonnementAdherentId id = new AbonnementAdherentId(idAdherent, idAbonnement);
-        abonnementAdherentRepository.deleteById(id);
-        return "redirect:/abonnement-adherent";
-    }
 }

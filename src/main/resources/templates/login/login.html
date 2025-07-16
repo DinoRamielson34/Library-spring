@@ -75,9 +75,9 @@
     <h2>Connexion</h2>
     <form th:action="@{/login}" method="post">
         <label>Nom d'utilisateur:</label>
-        <input type="text" name="username" value="biblio1" required />
+        <input type="text" name="username" value="user_biblio" required />
         <label>Mot de passe:</label>
-        <input type="password" name="mdp" value="biblio123" required />
+        <input type="password" name="mdp" value="mdp1" required />
         <button type="submit">Se connecter</button>
     </form>
     <p th:if="${error}" th:text="${error}" style="color:red;"></p>
